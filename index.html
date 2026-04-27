@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lines Do Not Cross - 连线不交叉</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+        
+        #game-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        #game-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        #level-info {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        #canvas-container {
+            position: relative;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            background: #0f3460;
+        }
+        
+        canvas {
+            border-radius: 15px;
+        }
+        
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e94560;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            display: none;
+            z-index: 10;
+            text-align: center;
+        }
+        
+        #message.success {
+            color: #00ff88;
+        }
+        
+        #controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 10px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            background: #e94560;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+        }
+        
+        button:hover {
+            background: #ff6b81;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        #level-complete {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            border-radius: 15px;
+        }
+        
+        #level-complete h2 {
+            font-size: 2.5rem;
+            color: #00ff88;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+        }
+        
+        #level-complete p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        #instructions {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #aaa;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1 id="game-title">Lines Do Not Cross</h1>
+        <div id="level-info">
+            <span id="current-level">关卡: 1</span>
+            <span id="pairs-count">颜色对: 3</span>
+        </div>
+        <div id="canvas-container">
+            <canvas id="game-canvas" width="600" height="600"></canvas>
+            <div id="message"></div>
+            <div id="level-complete">
+                <h2 id="level-complete-title">通关成功！</h2>
+                <p id="level-complete-text">准备好迎接下一关了吗？</p>
+                <div id="level-complete-buttons">
+                    <button id="next-level-btn">下一关</button>
+                    <button id="restart-btn">重新开始</button>
+                </div>
+            </div>
+        </div>
+        <div id="controls">
+            <button id="reset-level-btn">重置关卡</button>
+            <button id="restart-game-btn">重新开始游戏</button>
+        </div>
+        <p id="instructions">游戏说明：点击并拖动相同颜色的圆点，将它们用线连接起来。<br>如果线条交叉，刚画的线会自动清除。<br>所有圆点都正确连接且线条不交叉即可过关！</p>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
