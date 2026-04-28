@@ -435,6 +435,17 @@ class LinesDoNotCrossGame {
     
     updateDrawing(pos) {
         if (!this.currentLine) return;
+
+        for (let dot of this.dots) {
+            if (dot.pairId !== this.startDot.pairId && this.isPointInDot(pos, dot)) {
+                this.isDrawing = false;
+                this.currentLine = null;
+                this.startDot = null;
+                this.showMessage('线条不能碰到其他颜色的圆点！');
+                setTimeout(() => this.hideMessage(), 1000);
+                return;
+            }
+        }
         
         const lastPoint = this.currentLine.points[this.currentLine.points.length - 1];
         const dx = pos.x - lastPoint.x;

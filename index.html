@@ -10,77 +10,88 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        html, body {
+            height: 100%;
+            overflow: auto;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1a1a2e, #16213e);
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            padding: 20px 10px;
             color: white;
-            overflow: hidden;
         }
-        
+
         #game-container {
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
+            max-width: 700px;
         }
-        
+
         #game-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
-        
+
         #level-info {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+            font-size: 1rem;
+            margin-bottom: 15px;
             display: flex;
             gap: 20px;
         }
-        
+
         #canvas-container {
             position: relative;
             border-radius: 15px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
             background: #0f3460;
         }
-        
+
         canvas {
             border-radius: 15px;
+            display: block;
         }
-        
+
         #message {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #e94560;
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
             display: none;
             z-index: 10;
             text-align: center;
+            pointer-events: none;
         }
-        
+
         #message.success {
             color: #00ff88;
         }
-        
+
         #controls {
-            margin-top: 20px;
+            margin-top: 15px;
             display: flex;
-            gap: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        
+
         button {
-            padding: 10px 25px;
-            font-size: 1rem;
+            padding: 8px 20px;
+            font-size: 0.9rem;
             border: none;
             border-radius: 25px;
             background: #e94560;
@@ -89,17 +100,17 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
         }
-        
+
         button:hover {
             background: #ff6b81;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
         }
-        
+
         button:active {
             transform: translateY(0);
         }
-        
+
         #level-complete {
             position: absolute;
             top: 0;
@@ -114,22 +125,22 @@
             z-index: 20;
             border-radius: 15px;
         }
-        
+
         #level-complete h2 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             color: #00ff88;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
         }
-        
+
         #level-complete p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1rem;
+            margin-bottom: 20px;
         }
-        
+
         #instructions {
-            margin-top: 20px;
-            font-size: 0.9rem;
+            margin-top: 15px;
+            font-size: 0.8rem;
             color: #aaa;
             max-width: 600px;
             text-align: center;
@@ -160,7 +171,7 @@
             <button id="reset-level-btn">重置关卡</button>
             <button id="restart-game-btn">重新开始游戏</button>
         </div>
-        <p id="instructions">游戏说明：点击并拖动相同颜色的圆点，将它们用线连接起来。<br>如果线条交叉，刚画的线会自动清除。<br>所有圆点都正确连接且线条不交叉即可过关！</p>
+        <p id="instructions">游戏说明：点击并拖动相同颜色的圆点，将它们用线连接起来。<br>如果线条交叉或碰到其他颜色的圆点，连线会被清除。<br>所有圆点都正确连接且线条不交叉即可过关！</p>
     </div>
 
     <script src="game.js"></script>
