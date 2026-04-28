@@ -374,7 +374,47 @@ class LinesDoNotCrossGame {
         const dy = point.y - dot.y;
         return Math.sqrt(dx * dx + dy * dy) <= this.dotRadius;
     }
-    
+
+    isLineTouchingDot(linePoints, dot) {
+        const lastIndex = linePoints.length - 1;
+        if (lastIndex < 1) return false;
+
+        const lineEnd = linePoints[lastIndex];
+
+        for (let i = 0; i < lastIndex; i++) {
+            const p1 = linePoints[i];
+            const p2 = linePoints[i + 1];
+
+            const closestPoint = this.closestPointOnLineSegment(p1, p2, lineEnd);
+            const dx = closestPoint.x - dot.x;
+            const dy = closestPoint.y - dot.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist <= this.dotRadius) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    closestPointOnLineSegment(p1, p2, point) {
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        const lengthSquared = dx * dx + dy * dy;
+
+        if (lengthSquared === 0) {
+            return { x: p1.x, y: p1.y };
+        }
+
+        let t = ((point.x - p1.x) * dx + (point.y - p1.y) * dy) / lengthSquared;
+        t = Math.max(0, Math.min(1, t));
+
+        return {
+            x: p1.x + t * dx,
+            y: p1.y + t * dy
+        };
+    }
+
     handleMouseDown(e) {
         const pos = this.getMousePosition(e);
         this.startDrawing(pos);
@@ -446,14 +486,31 @@ class LinesDoNotCrossGame {
                 return;
             }
         }
-        
+
         const lastPoint = this.currentLine.points[this.currentLine.points.length - 1];
         const dx = pos.x - lastPoint.x;
         const dy = pos.y - lastPoint.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (distance > 5) {
             this.currentLine.points.push({ x: pos.x, y: pos.y });
+
+            for (let dot of this.dots) {
+                if (dot.pairId !== this.startDot.pairId) {
+                    const testPoints = [
+                        ...this.currentLine.points,
+                        { x: pos.x, y: pos.y }
+                    ];
+                    if (this.isLineTouchingDot(testPoints, dot)) {
+                        this.isDrawing = false;
+                        this.currentLine = null;
+                        this.startDot = null;
+                        this.showMessage('线条不能碰到其他颜色的圆点！');
+                        setTimeout(() => this.hideMessage(), 1000);
+                        return;
+                    }
+                }
+            }
         }
     }
     
